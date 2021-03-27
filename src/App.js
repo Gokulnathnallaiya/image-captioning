@@ -1,43 +1,42 @@
-import React from 'react';
-import ImageUploader from 'react-images-upload';
-import './App.css'
- 
+import axios from "axios";
+import React from "react";
+import ImageUploader from "react-images-upload";
+import "./App.css";
+
 class App extends React.Component {
- 
-    constructor(props) {
-        super(props);
-         this.state = { pictures: [] };
-         this.onDrop = this.onDrop.bind(this);
-    }
- 
-    onDrop(picture) {
-      console.log(picture)
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
-    }
- 
-    render() {
-        return (
+  constructor(props) {
+    super(props);
+    this.state = { pictures: [], caption: "" };
+    this.onDrop = this.onDrop.bind(this);
+    
+  }
 
-          <div className="upload-container">
+  onDrop(picture) {
+    
+    axios.post("http://bee09e52ec85.ngrok.io/predict", {userImage:picture[0].name}).then(res=>{
+      console.log(res)
+      this.setState({caption:res.data.caption})
+    });
+  }
 
-            <h1>IMAGE-CAPTIONING</h1>
+  render() {
+    return (
+      <div className="upload-container">
+        <h1>IMAGE-CAPTIONING</h1>
 
-          
-            <ImageUploader
-                withIcon={true}
-                buttonText='Choose images'
-                onChange={this.onDrop}
-                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                maxFileSize={5242880}
-                withPreview={true}
-            />
+        <ImageUploader
+          withIcon={true}
+          buttonText="Choose images"
+          onChange={this.onDrop}
+          imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+          maxFileSize={5242880}
+          withPreview={true}
+        />
 
-            </div>
-        );
-    }
+        <p>{this.state.caption}</p>
+      </div>
+    );
+  }
 }
-
 
 export default App;
