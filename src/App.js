@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ImageUploader from 'react-images-upload';
+import './App.css'
+ 
+class App extends React.Component {
+ 
+    constructor(props) {
+        super(props);
+         this.state = { pictures: [] };
+         this.onDrop = this.onDrop.bind(this);
+    }
+ 
+    onDrop(picture) {
+      console.log(picture)
+        this.setState({
+            pictures: this.state.pictures.concat(picture),
+        });
+    }
+ 
+    render() {
+        return (
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <div className="upload-container">
+
+            <h1>IMAGE-CAPTIONING</h1>
+
+          
+            <ImageUploader
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+                withPreview={true}
+            />
+
+            </div>
+        );
+    }
 }
+
 
 export default App;
