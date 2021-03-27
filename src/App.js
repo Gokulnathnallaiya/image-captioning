@@ -6,16 +6,19 @@ import "./App.css";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pictures: [], caption: "" };
+    this.state = { pictures: [], caption: "", loading:false };
     this.onDrop = this.onDrop.bind(this);
     
   }
 
   onDrop(picture) {
+
+    this.setState({loading:true})
     
     axios.post("http://bee09e52ec85.ngrok.io/predict", {userImage:picture[0].name}).then(res=>{
       console.log(res)
-      this.setState({caption:res.data.caption})
+      this.setState({caption:res.data.caption, loading:false})
+      
     });
   }
 
@@ -23,7 +26,7 @@ class App extends React.Component {
     return (
       <div className="upload-container">
         <h1>IMAGE-CAPTIONING</h1>
-
+<div style={{maxWidth:'600px'}}>
         <ImageUploader
           withIcon={true}
           buttonText="Choose images"
@@ -32,8 +35,9 @@ class App extends React.Component {
           maxFileSize={5242880}
           withPreview={true}
         />
+</div>
 
-        <p>{this.state.caption}</p>
+        {this.state.loading ?<p>Please wait while we caption Your image 🙃</p>:<p>Caption : {this.state.caption}</p>}
       </div>
     );
   }
