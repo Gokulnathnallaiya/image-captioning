@@ -47,10 +47,10 @@ class App extends React.Component {
           </p>
         ) : ( this.state.caption ?
           <>
-            <p>
-              Caption :
-              <span style={{ color: "green" }}>"{this.state.caption}"</span>
-            </p>
+            <div style={{display:"flex", justifyContent:'center', flexDirection:'column', alignItems:'center'}}>
+              <p>Hurray! we found the caption !!</p>
+              <p style={{fontWeight:'bold'}}>Caption :<span style={{ color: "green"}}>"{this.state.caption}"</span></p>
+            </div>
             <div>
               <Speech
                 text={this.state.caption}
@@ -61,7 +61,7 @@ class App extends React.Component {
               />
             </div>
           </>:(
-            <p>Upload an image to find the caption</p>
+            <p style={{fontWeight:'bold'}}>Upload an image to find the caption</p>
           )
         )}
       </div>
